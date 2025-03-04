@@ -1,7 +1,107 @@
 {% load static %}
+<html>
+  <link rel="stylesheet" href="{% static 'students.css' %}">
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+
+  <style>
+    a{
+    text-decoration: none;
+    color:black;
+}
+  </style>
+<body>
 
 
-<!DOCTYPE html>
+<h1>Students Details</h1>
+
+{%if student_list_all%}
+
+<label for="exampleDataList" class="form-label">Student Names:</label>
+<input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search student usn...">
+<datalist id="datalistOptions">
+  {%for student in student_list_all%}
+  <option value="{{student.usn}}">{{student.usn}}</option>
+  {%endfor%}
+</datalist>
+
+{%if sem_list%}
+<select class="form-select" aria-label="Default select example">
+  <option value="">Select Sem</option>
+  {% for sem in sem_list %}
+  <option value="{{sem.semester_number}}" {% if request.GET.sem == sem.semester_number %}selected{% endif %} >{{sem.semester_number}}</option>
+  {% endfor%}
+</select>
+{%endif%}
+
+   
+{%endif%}
+
+{%if student_list%}
+<div class="container">
+  <table border="1" >
+    <tr>
+        <th>Subject</th>
+         
+    </tr>
+    
+    <tbody>
+      {% for student in student_list %}
+      <tr>
+        <td>{{ student.result_set.subject.name }} </td>
+       
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+</div>  
+{%endif%}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html>
   <link rel="stylesheet" href="{% static 'students.css' %}">
 <body>
@@ -20,4 +120,4 @@
     <p>No students are available.</p>
 {% endif %}
 </body>
-</html>
+</html> -->

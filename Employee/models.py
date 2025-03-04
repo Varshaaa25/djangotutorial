@@ -20,6 +20,7 @@ class Employee(models.Model):
     salary=models.FloatField()
     experience=models.SmallIntegerField()
     department_id=models.ForeignKey(Department,on_delete=models.CASCADE)
+    profile_image=models.TextField(null=True,blank=True)
 
 class Contact(models.Model):
     address=models.TextField()

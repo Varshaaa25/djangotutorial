@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<style> 
+  td,th{
+      font-size: 20px; 
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+  
+   }
+   th{   
+      background-color: #589087; 
+      color:white;
+   }
+   td{  
+       text-align: center;
+       border: 1px solid white !important;
+       text-decoration: none;   
+   }
+  table{
+      width:50%;
+      border:1px solid white !important;
+      margin-left: 350px;
+  }
+  tbody{
+      margin-top: 10px;
+  }
+  tr:hover{
+      background-color: #e0e0e0;
+      
+  }
+  tr:nth-child(odd){
+      background-color: #f2f2f2;
+  }
+  tr:nth-child(even){
+      /* background-color: #dfcaca; */
+      background-color: #f2f2f2;;
+  }
+  button{
+    text-decoration: none !important;
+    background-color: #589087;
+    margin-top: 90px;
+    width:50%;
+    margin-left: 200px;
+    font-size: 27px;
+    color:white !important;
+    border-radius: 5px;
+  }
+  #container{
+    margin-top: 200px;
+  }
+
+  input,select{
+    width:200px;
+    height:30px;
+    border-radius: 5px;
+  }
+  .dropdown-container{
+    margin-left: 400px;
+    margin-top: 50px;
+  }
+  
+  </style>
+
+<body>
+ <div class="dropdown-container">
+    <label for="exampleDataList" class="form-label">Student USN:</label>
+    <input  onchange="updateurl('usn',this.value)" class="form-control" list="usn" id="usn-dropdown" placeholder="Type to search student usn...">
+    <datalist id="usn">
+        
+        {%for student in student_list_all%}
+        <option value="{{student.student.usn}}">{{student.student.usn}}</option>
+        {%endfor%}
+     
+    </datalist>
+    <label class="form-label">Semester:</label>
+    <select onchange="updateurl('sem',this.value)" id="sem-dropdown" class="form-select" aria-label="Default select example">
+        <option value="">Select Sem</option>
+        {% for sem in sem_list %}
+        <option value="{{sem.semester_number}}" {% if request.GET.sem == sem.semester_number %}selected{% endif %} >{{sem.semester_number}}</option>
+        {% endfor%}
+      </select>
+ </div>   
+
+
+
+  {%if student_list%}
+  <div id="container">
+    
+    <h2 style="text-align: center;">Student Result </h2>
+    <table border="1" id="table">
+        
+       <tr>
+        <th>Subject</th>
+        <th>Marks</th>
+       </tr>
+       {%for student in student_list %}
+       <tr>
+        <td>{{student.subject.name}}</td>
+        <td>{{student.marks}}</td>
+       {%endfor%}
+       </tr>
+      
+    </table>
+    <p style="float: right;font-size: 20px;"> Total Percentage : {{percentage}}%</p>
+  
+    {%else%}
+    
+    <p style="text-align: center;font-size: 20px;">no results found</p>
+    {%endif%}
+</div>
+<script>
+    function updateurl(param, value) {
+      
+    let url = new URL(window.location.href);
+ 
+    if (value) {
+        url.searchParams.set(param, value);
+    } else {
+        url.searchParams.delete(param);
+      
+    }
+ 
+    if (param === 'usn') {
+        url.searchParams.delete('sem');
+ 
+    }
+   
+ 
+    window.location.href = url.href;
+}
+ 
+
+window.onload = function () {
+    var container=document.getElementById("container")
+    let urlParams=new URLSearchParams(window.location.search);
+    if(!urlParams.has("usn")&&!urlParams.has("sem")){
+        container.style.display="none"
+    }
+    // Reset everything when the page is refreshed
+    if (performance.navigation.type === 1) { //if 1 then its refreshed
+        window.location.href = window.location.pathname; //pathname=excludes query parameter
+    }
+ 
+};
+</script>
+  
+
+</body>
+</html>

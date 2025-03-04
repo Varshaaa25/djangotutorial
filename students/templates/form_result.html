@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+      body{
+        display: flex;    
+        justify-content: center;
+        margin-top: 200px;
+    }
+    .container{
+         background-color: white;
+        padding: 20px;
+        box-shadow: 1px 4px 50px rgb(0,0,0,0.1);
+        border-radius: 8px;
+        width:50%;
+        height:500px; 
+
+    }
+
+    td,th{
+    font-size: 20px; 
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+
+ }
+ th{   
+    background-color: #589087; 
+    color:white;
+ }
+ td{
+     
+     text-align: center;
+    border: 1px solid white !important;
+     text-decoration: none;   
+ }
+ a{
+    text-decoration: none;
+    color: white;
+ }
+
+
+table{
+    width:90%;
+    border:1px solid white !important;
+    margin-left: 40px;
+  
+   
+
+}
+tbody{
+    margin-top: 10px;
+}
+tr:hover{
+    background-color: #e0e0e0;
+    
+}
+tr:nth-child(odd){
+    background-color: #f2f2f2;
+}
+tr:nth-child(even){
+    /* background-color: #dfcaca; */
+    background-color: #f2f2f2;;
+}
+button{
+  text-decoration: none !important;
+  background-color: #589087;
+  margin-top: 90px;
+  width:50%;
+  margin-left: 200px;
+  font-size: 27px;
+  color:white !important;
+  border-radius: 5px;
+}
+
+</style>
+
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Student Result for {{usn}} in Sem {{sem}}</h2>
+   
+        {%if student_results%}
+      
+        <table border="1">
+           <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+           </tr>
+           {%for result in student_results %}
+           <tr>
+            <td>{{result.subject.name}}</td>
+            <td>{{result.marks}}</td>
+           {%endfor%}
+           </tr>
+          
+        </table>
+
+        <p style="float: right;font-size: 20px;"> Total Percentage : {{percentage}}%</p>
+        <button><a href="/student">Back</a></button>
+        {%else%}
+        
+        <p style="text-align: center;font-size: 20px;">no results found</p>
+        {%endif%}
+    </div>
+    
+</body>
+</html>

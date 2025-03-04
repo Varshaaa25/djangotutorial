@@ -1,0 +1,80 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="{% static 'profile.css' %}">
+  <style>
+    body{
+    background-color:rgb(236, 226, 226);
+    
+}
+.profile-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: white;  
+    margin:0px 20px;
+    margin-top:200px;
+    border-radius: 8px;
+    height:300px; 
+    width:90% !important; 
+    
+}
+.profile-picture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px;   
+}
+img{
+    border-radius: 50%;
+    /* max-width: 100% !important;
+    max-height: 100% !important; */
+    width:300px !important;
+    height: 250px;
+
+}
+  </style>
+<body>
+
+{% if employee %}
+<div class="profile-container">
+  <div class="profile-details">
+    <div class="profile-picture">
+      <img src="{%static employee.profile_image%}" alt="profile_image" width="130" style="transition: transform 0.3s ease-in-out;">
+
+    </div>
+    <div class="profile-info">
+      <h1>About {{employee.name}}</h1>
+      <div class="information">
+        <ul>
+          <li><b>Operations:</b> {{employee.designation | capfirst}}</li>
+          <li><b>Department:</b> {{employee.department_id.name | capfirst}}</li>
+          <li><b>Office Location:</b> {{employee.department_id.location.name | capfirst}}</li>
+        </ul>
+        <ul>
+          <li><b>Employee Address:</b> {{employee.contact_set.first.address | capfirst}}</li>
+          <li><b>Contact Number:</b>
+            {%for contact in employee.contact_set.all %}
+          {{contact.number}}{%if not forloop.last%},{%endif%}
+          {%endfor%}
+          </li>
+          <li><b>Email:</b> {{employee.email}}</li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+  
+   
+<!-- {% else %}
+    <p>No students are available.</p>
+{% endif %} -->
+</body>
+</html>

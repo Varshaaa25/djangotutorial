@@ -1,4 +1,139 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+   <link rel="stylesheet"  href="{% static 'employee.css' %}">
+   {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+<body>
 
+  <h1 style="text-align: center;margin-top: 8px;"> Employee Details</h1>
+
+   {% if employee_list_all %}
+  <div class="container">
+   <!-- dropdown for employee name -->
+   <select onchange="updateurl('name',this.value)" class="form-select" aria-label="Default select example">
+    <option value="">Select Employee</option>
+    {% for employee in employee_list_all %}
+    <option value="{{employee.name}}" {% if request.GET.name == employee.name %}selected{% endif %} >{{employee.name}}</option>
+    {% endfor%}
+  </select>
+<!-- dropdown for employee designation -->
+  <select onchange="updateurl('designation',this.value)" class="form-select" aria-label="Default select example">
+    <option value="">Select Designation</option>
+    {% for employee in employee_list_all %}
+    <option value="{{employee.designation}}" {% if request.GET.designation == employee.designation %}selected{% endif %} >{{employee.designation}}</option>
+    {% endfor%}
+  </select>
+<!-- dropdown for employee experience -->
+  <select onchange="updateurl('experience',this.value)" class="form-select" aria-label="Default select example">
+    <option value="">Select Work Experience</option>
+    {% for employee in employee_list_all %}
+    <option value="{{employee.experience}}" {% if request.GET.experience == employee.experience %}selected{% endif %} >{{employee.experience}}</option>
+    {% endfor%}
+  </select>
+  </div>
+   
+
+ 
+  {% if employee_list %}
+  <div class="table-container">
+    <table >
+      <tr style="text-align: center;">
+          <th>NAME</th>
+          <th>PROFILE</th>
+          <th>EMAIL</th> 
+          <th>DESIGNATION</th>
+          <th>EXPERIENCE</th>    
+      </tr>
+      
+      <tbody>
+        {% for employee in employee_list %}
+        <tr style="text-align: center;">
+          <td ><a style="color:black" href="/employee/{{employee.id}}">{{ employee.name }}</a></a> </td>
+         <td><img src="{%static employee.profile_image%}" alt="profile_image" width="130" style="transition: transform 0.3s ease-in-out;"></td>
+          <td><a href="mailto:{{employee.email}}">{{ employee.email}}</a> </td>
+          <td>{{ employee.designation }} </td>
+          <td>{{ employee.experience }} </td>        
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+  </div>
+  
+      
+     
+{% else %}
+    <p>No employees are available.</p>
+{% endif %}
+{% endif %}
+
+</body>
+<script>
+  
+
+function updateurl(param, value) {
+    let url = new URL(window.location.href);
+ 
+    if (value) {
+        url.searchParams.set(param, value);
+    } else {
+        url.searchParams.delete(param);
+    }
+ 
+    if (param === 'name') {
+        url.searchParams.delete('designation');
+        url.searchParams.delete('experience');
+    } else if (param === 'designation') {
+        url.searchParams.delete('experience');
+    }
+ 
+    window.location.href = url.href;
+}
+ 
+// Reset everything when the page is refreshed
+window.onload = function () {
+    if (performance.navigation.type === 1) { //if oe then its refreshed
+        window.location.href = window.location.pathname; //pathname=excludes query paamter
+    }
+};
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
 
 {% load static %}
 <!DOCTYPE html>
@@ -29,6 +164,6 @@
 {% endif %}
 
 </body>
- </html>
+ </html> -->
 
  

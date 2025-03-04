@@ -1,0 +1,167 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <style>
+    .product-block {
+        width: 200px;
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid black;
+        text-align: center;
+        
+    }
+    .container{
+        width:400px;
+        margin-top: 80px;
+    }
+    #product-container{
+        margin-top: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    #category-input{
+        height:47px;
+        border-radius: 5px;
+    }
+   .main-container{
+    
+    border:1px solid black;
+    width:900px;
+    margin:10px 250px;
+    display: block;
+    align-items: center;
+   }
+  </style>
+
+<body>
+    <div class="main-container">
+        <h1 style="text-align: center;">Pagination Example</h1>
+        <!-- Category Dropdown -->
+         <div class="container">
+            <label style="margin-left: 100px;margin-bottom: 20px;font-size: 20px;" for="category-input" class="form-label">Select Category:</label>
+            <input id="category-input" class="form-control" onchange="filterCategory()" list="category-list" id="exampleDataList" placeholder="Type to search category Name...">
+        <datalist id="category-list"> 
+            <option value="">All Categories</option>
+            {% for category in categories %}
+            <option value="{{category.name}}">{{category.name}}</option>
+            {% endfor %}
+        </datalist>
+         </div>
+       
+    
+    
+      <!-- Product List -->
+      <h3 style="text-align: center;margin-top: 100px;">Products:</h3>
+      <div id="product-container">
+          {% for product in page_obj %}
+              <div class="product-block">
+               ID: {{ product.id }}</p>
+               Name: {{ product.name }}</p>
+              </div>
+          {% empty %}
+              <p class="no-products">No products available</p>
+          {% endfor %}
+      </div>
+     
+      <!-- Pagination -->
+      <center>
+          <ul class="pagination justify-content-center flex-wrap  mb-4 " style="margin-top: 160px;">
+              {% if page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?category={{ selected_category }}&page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+              {% else %}
+                  <li class="disabled page-item"><span class="page-link">&laquo;</span></li>
+              {% endif %}
+     
+              {% for i in page_range %}
+                  {% if page_obj.number == i %}
+                      <li class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                      {% if i == page_obj.paginator.ELLIPSIS %}
+                          <li class="page-item"><span class="page-link">{{ i }}</span></li>
+                      {% else %}
+                          <li class="page-item"><a class="page-link" href="?category={{ selected_category }}&page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                  {% endif %}
+              {% endfor %}
+     
+              {% if page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="?category={{ selected_category }}&page={{ page_obj.next_page_number }}">&raquo;</a></li>
+              {% else %}
+                  <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+              {% endif %}
+          </ul>
+      </center>
+     
+    </div>
+    
+
+  <script>
+    if (performance.navigation.type === 1) { //if 1 then its refreshed
+        window.location.href = window.location.pathname; //pathname=excludes query paamter
+    }
+    function filterCategory() {
+
+        var selectedCat = document.getElementById("category-input").value;
+        if(selectedCat===""){
+            window.location.href=""
+        }
+        else{
+            window.location.href = "?category=" + (selectedCat);
+        }
+       
+    
+        
+    
+}
+  </script>
+        <!-- {%if category_list %}
+        // <label for="exampleDataList" class="form-label">Datalist example</label>
+        // <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+        // <datalist id="category-dropdown" >
+        // {%for category in category_list%}
+        //  <option value="{{category.name}}">{{category.name}}</option>
+        // {%endfor%}
+        // </datalist>
+        // {%endif%}
+
+	
+
+   
+	<center>
+	
+        <ul class="pagination justify-content-center flex-wrap mt-2 mb-4">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled page-item"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+            {% for i in page_range|default_if_none:page_obj.paginator.get_elided_page_range %}
+                {% if page_obj.number == i %}
+                    <li class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                {% else %}
+                    {% if i == page_obj.paginator.ELLIPSIS %}
+                        <li class="page-item"><span class="page-link">{{ i }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+        </ul>
+        
+	</center> -->
+</body>
+
+</html>
